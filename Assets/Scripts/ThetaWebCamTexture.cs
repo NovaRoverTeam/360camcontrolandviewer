@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class ThetaWebCamTexture : MonoBehaviour {
-	
-	public int cameraNumber = 0;
+
+    public int cameraNumber;
     public GameObject sphere1;
     public GameObject sphere2;
 
@@ -13,7 +13,8 @@ public class ThetaWebCamTexture : MonoBehaviour {
 	void Start() 
 	{
 		WebCamDevice[] devices = WebCamTexture.devices;
-		if (devices.Length > cameraNumber)
+        cameraNumber = PlayerPrefs.GetInt("CameraNumber");
+        if (devices.Length > cameraNumber)
         {
 			webcamTexture = new WebCamTexture(devices[cameraNumber].name, 1280, 720);
 
@@ -35,5 +36,14 @@ public class ThetaWebCamTexture : MonoBehaviour {
             webcamTexture.Stop();
         }
         SceneManager.LoadScene(LoadTarget);
+    }
+
+    public void ExitBtn(string LoadTarget)
+    {
+        if (webcamTexture.isPlaying)
+        {
+            webcamTexture.Stop();
+        }
+        Application.Quit();
     }
 }
